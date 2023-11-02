@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 
-const tourRouter = require(`${__dirname}/routes/tourRoute`);
+const tourRouter = require('./routes/tourRoute');
 const userRouter = require('./routes/userRoute');
 
 const app = express();

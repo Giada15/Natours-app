@@ -6,7 +6,7 @@ exports.getAllTours = async (req, res) => {
 
     //1A)Filtering
     const queryObj = { ...req.query };
-    const excludeFields = ['page', 'sort', 'limit', 'field'];
+    const excludeFields = ['page', 'sort', 'limit', 'fields'];
 
     excludeFields.forEach((el) => delete queryObj[el]);
 
@@ -29,6 +29,15 @@ exports.getAllTours = async (req, res) => {
       //sort("price ratingsAverage")
     } else {
       query = query.sort('-createdAt');
+    }
+
+    // 3) Field limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      // to send everything excludint the __v field with -__v
+      query = query.select('-__v');
     }
 
     //EXECUTE QUERY
